@@ -82,7 +82,7 @@ if __name__ == "__main__":
     
     else:
         print("Loading ID Matrix...")
-        id_matrix = hf.load_model('idsMatrix.npy')
+        id_matrix = hf.load_model('id_matrix.npy')
         if len(id_matrix) > 0:
             print("Matrix Loaded")
             print("Displaying first 5 rows: \n", id_matrix[:5], "etc.....")

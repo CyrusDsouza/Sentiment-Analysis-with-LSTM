@@ -13,10 +13,11 @@ from os.path import isfile, join
 from tools import preprocess
 from tools import helper_function as hf
     
-import rnn
 import calculate_lengths
+import tensorflow as tf
+from rnn import TensorFlow
 
-ROOT = "D:/Cyrus/Implementations/LSTM-Sentiment-Analysis/cyrus-repo/"
+ROOT = "D:/Cyrus/Implementations//Sentiment-Analysis-with-LSTM/"
 
 
 #get vectors and id's from training data pickle file
@@ -57,14 +58,14 @@ if __name__ == "__main__":
     train = False 
 
             
-    #read the files (currently only 10)
+#    read the files (currently only 10)
 #    print("Reading Files....\n")
 #    positiveFiles = [ROOT + 'training_data/training_data/positiveReviews/' + f for f in os.listdir(ROOT + 'training_data/training_data/positiveReviews/') if isfile((join(ROOT + 'training_data/training_data/positiveReviews/', f)))][:10]
 #    negativeFiles = [ROOT + 'training_data/training_data/positiveReviews/' + f for f in os.listdir(ROOT + 'training_data/training_data/positiveReviews/') if isfile((join(ROOT + 'training_data/training_data/positiveReviews/', f)))][:10]
 #    
 #    print("Calculating Lengths....\n")
 #    maxLength, numFiles = calculate_lengths.find_max_length(positiveFiles, negativeFiles)#len(sentence)   
-#    id_matrix = np.zeros((numFiles+1,maxLength+1), dtype= 'int32')
+#    id_matrix = np.zeros((numFiles,maxLength), dtype= 'int32')
 
 
     if train:      
@@ -83,14 +84,35 @@ if __name__ == "__main__":
     else:
         print("Loading ID Matrix...")
         id_matrix = hf.load_model('id_matrix.npy')
-        if len(id_matrix) > 0:
+        if len(id_matrix.shape) > 0:
             print("Matrix Loaded")
             print("Displaying first 5 rows: \n", id_matrix[:5], "etc.....")
             
     maxLength = 436 #change later and make dynamic
     
-    rnn(maxLength)
-            
-            
+    
+    
+    a = TensorFlow()
+    a.run(id_matrix, maxLength,wordVectors)
+#        
+#        sess.run(ls.optimizer, {input_data: nextBatch, labels: nextBatchLabels})
+#       
+#        #Write summary to Tensorboard
+#        if (i % 50 == 0):
+#            summary = sess.run(merged, {input_data: nextBatch, labels: nextBatchLabels})
+#            writer.add_summary(summary, i)
+#    
+#        #Save the network every 10,000 training iterations
+#        if (i % 10000 == 0 and i != 0):
+#            save_path = saver.save(sess, "models/pretrained_lstm.ckpt", global_step=i)
+#            print("saved to %s" % save_path)
+#        writer.close()
+#        
+#    iterations = 10
+#    for i in range(iterations):
+#        nextBatch, nextBatchLabels = hf.getTestBatch();
+#        print("Accuracy for this batch:", (sess.run(accuracy, {input_data: nextBatch, labels: nextBatchLabels})) * 100)        
+#    
+    
         
         

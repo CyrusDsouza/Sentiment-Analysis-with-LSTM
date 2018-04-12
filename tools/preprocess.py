@@ -9,7 +9,7 @@ import re
 import numpy as np
 strip_special_characters = re.compile("[^A-Za-z0-9 ]+")
 
-ROOT = "D:/Cyrus/Implementations/LSTM-Sentiment-Analysis/cyrus-repo/"        
+ROOT = "D:/Cyrus/Implementations//Sentiment-Analysis-with-LSTM"
         
 
 def clean(string):

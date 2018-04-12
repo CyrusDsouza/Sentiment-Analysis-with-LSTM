@@ -5,14 +5,16 @@ Created on Fri Apr  6 12:35:00 2018
 @author: Cyrus DSouza
 """
 import numpy as np
+import os
 from random import randint
 
-ROOT = "D:/Cyrus/Implementations/LSTM-Sentiment-Analysis/cyrus-repo/"
+ROOT = "D:/Cyrus/Implementations//Sentiment-Analysis-with-LSTM/"
 
 
 def getTrainBatch(ids,batchSize, maxSeqLength):
+
     labels = []
-    arr = np.zeros([batchSize, maxSeqLength])
+    arr = np.zeros([batchSize, maxSeqLength+1])
     for i in range(batchSize):
         if(i%2 == 0):
             num = randint(1,15300)
@@ -20,8 +22,8 @@ def getTrainBatch(ids,batchSize, maxSeqLength):
         else:
             num = randint(13233, 15309)
             labels.append([0,1])
-        
-        arr[i] = ids[num-1:num]
+        print(arr.shape)
+        arr[i] = ids[num-1:num].reshape(0,arr[i].shape[1])
         
     return arr, labels 
 
@@ -36,6 +38,7 @@ def getTestBatch(ids, batchSize, maxSeqLength):
             labels.append([1,0])
         else:
             labels.append([0,1])
+            
         arr[i] = ids[num-1:num]
         
     return arr, labels    
@@ -69,14 +72,16 @@ def find_max_length(positiveFiles, negativeFiles):
 
 def load_model(model_name):
     try:
-        model = ROOT + "/models/" + model_name
+        os.chdir(ROOT + "models/")
+        model = ROOT + "models/" + model_name
+        
         data = np.load(model)
-            
-        return data
+        os.chdir("..")
+        return data        
     
     except Exception as e:
         
-        return("Model name {} incorrect".format(model_name))
+        print("Model name {} incorrect. Error - {}".format(model_name,e))
         
     
 
